@@ -26,3 +26,4 @@ quiz-sse-server/quiz-sse-server
 *.njsproj
 *.sln
 *.sw?
+.vercel
