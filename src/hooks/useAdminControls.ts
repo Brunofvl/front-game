@@ -131,6 +131,15 @@ export function useAdminControls(): UseAdminControlsResult {
         throw rpcError
       }
 
+      const { error: speedPointsError } = await supabase.rpc('assign_speed_points', {
+        p_session_id: sessionId,
+        p_question_id: currentQuestionId,
+      })
+
+      if (speedPointsError) {
+        throw speedPointsError
+      }
+
       await new Promise<void>((resolve) => {
         window.setTimeout(() => resolve(), REVEAL_DURATION_MS)
       })

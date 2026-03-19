@@ -24,9 +24,11 @@ export function useAnswers(): UseAnswersResult {
         return
       }
 
-      const startedAtMs = session.question_started_at ? new Date(session.question_started_at).getTime() : Date.now()
+      const startedAtMs = session.question_started_at
+        ? new Date(session.question_started_at).getTime()
+        : Date.now()
       const responseTimeMs = Math.max(0, Date.now() - startedAtMs)
-      const answer: Omit<Answer, 'id' | 'answered_at'> & { answered_at?: string } = {
+      const answer = {
         session_id: session.id,
         question_id: currentQuestion.id,
         user_id: profile.id,
@@ -36,16 +38,16 @@ export function useAnswers(): UseAnswersResult {
         response_time_ms: responseTimeMs,
       }
 
-      const { data, error } = await supabase.from('answers').insert(answer).select('*').single()
+      const { data, error } = await supabase
+        .from('answers')
+        .insert(answer)
+        .select('*')
+        .single()
       if (error) {
-        if (error.code === '23505') {
-          return
-        }
+        if (error.code === '23505') return
         throw new Error('Não foi possível registrar sua resposta.')
       }
-      if (data) {
-        setMyAnswer(data)
-      }
+      if (data) setMyAnswer(data)
     },
     [currentQuestion, hasAnswered, profile, session, setMyAnswer],
   )
@@ -64,40 +66,10 @@ export function useAnswers(): UseAnswersResult {
         .eq('question_id', currentQuestion.id)
         .eq('user_id', profile.id)
         .maybeSingle()
-      if (error) {
-        setMyAnswer(null)
-        return
-      }
-      setMyAnswer(data)
+      if (!error) setMyAnswer(data)
     }
 
     void fetchMine()
-
-    const channel = supabase
-      .channel(`answers-${session.id}-${currentQuestion.id}-${profile.id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'answers',
-          filter: `session_id=eq.${session.id}`,
-        },
-        (payload) => {
-          if (payload.eventType === 'DELETE') {
-            return
-          }
-          const next = payload.new as Answer
-          if (next.question_id === currentQuestion.id && next.user_id === profile.id) {
-            setMyAnswer(next)
-          }
-        },
-      )
-      .subscribe()
-
-    return () => {
-      supabase.removeChannel(channel)
-    }
   }, [currentQuestion?.id, profile, session?.id, setMyAnswer])
 
   return { submitAnswer, myAnswer, hasAnswered }
