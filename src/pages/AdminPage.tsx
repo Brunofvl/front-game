@@ -404,7 +404,7 @@ export default function AdminPage(): React.JSX.Element {
       <section className="mx-auto flex w-full max-w-6xl flex-col gap-5">
         <Card className="border-slate-700 bg-slate-900 text-white">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-2xl font-black">🎮 PAINEL ADMIN — Viktor vs Lucas</CardTitle>
+            <CardTitle className="text-2xl font-black">🎮 PAINEL ADMIN — Vitor vs Lucas</CardTitle>
             <Button variant="outline" className="bg-slate-100 text-slate-900 hover:bg-white" onClick={() => void logout()} disabled={authLoading}>
               {authLoading ? 'Saindo...' : 'Sair'}
             </Button>

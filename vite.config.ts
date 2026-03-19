@@ -9,7 +9,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Quiz Viktor vs Lucas',
+        name: 'Quiz Victor vs Lucas',
         short_name: 'Quiz',
         theme_color: '#030712',
         background_color: '#030712',

@@ -46,7 +46,7 @@ export default function LoginPage(): React.JSX.Element {
       <div className="mx-auto flex w-full max-w-md flex-col gap-6">
         <header className="text-center">
           <p className="text-sm uppercase tracking-[0.2em] text-slate-400">Quiz Corporativo</p>
-          <h1 className="mt-2 text-3xl font-bold">Viktor vs Lucas</h1>
+          <h1 className="mt-2 text-3xl font-bold">Vitor vs Lucas</h1>
         </header>
 
         <section className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
@@ -67,7 +67,7 @@ export default function LoginPage(): React.JSX.Element {
                 onClick={() => setSelectedTeam('viktor')}
                 className={`rounded-xl border-2 px-4 py-4 text-sm font-semibold transition ${selectedTeam === 'viktor' ? 'scale-[1.02] border-purple-300 bg-purple-600 shadow-[0_0_20px_rgba(168,85,247,.45)]' : 'border-transparent bg-purple-600/80'}`}
               >
-                Equipe Viktor
+                Equipe Vitor
               </button>
               <button
                 type="button"
